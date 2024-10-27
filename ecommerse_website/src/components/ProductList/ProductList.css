@@ -1,0 +1,21 @@
+
+
+.image-zoom {
+    transition: transform 0.4s ease; 
+    overflow: hidden; 
+    cursor: pointer;
+    width: 100%;
+    height: auto;
+}
+
+.image-zoom:hover {
+    transform: scale(1.2); 
+}
+.image-container{
+    width: 100%;
+    position: relative;
+    height: auto;
+    overflow: hidden;
+    
+}
+

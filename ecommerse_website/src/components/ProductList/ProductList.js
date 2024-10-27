@@ -1,12 +1,12 @@
 import React ,{Fragment}from "react"
-import {Card,Row,Col,Container} from "react-bootstrap"
+import {Card,Row,Col,Container, Button} from "react-bootstrap"
+import "./ProductList.css"
 
 const ProductList=()=>{
     const productsArr = [
-
         {
         
-        title: 'Colors',
+        title: 'Rockstar',
         
         price: 100,
         
@@ -16,7 +16,7 @@ const ProductList=()=>{
         
         {
         
-        title: 'Black and white Colors',
+        title: 'Taal',
         
         price: 50,
         
@@ -26,7 +26,7 @@ const ProductList=()=>{
         
         {
         
-        title: 'Yellow and Black Colors',
+        title: 'Dil Se Re',
         
         price: 70,
         
@@ -36,31 +36,40 @@ const ProductList=()=>{
         
         {
         
-        title: 'Blue Color',
+        title: 'Jodha Akbar',
         
         price: 100,
         
         imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%204.png',
         
-        }
-        
-        ]
+        }]
 
-        return <Fragment>
-        <Container className="justify-content-center">
-            <Row  >
-                {productsArr.map((item,index) => (
-                     <Col key={index} md={6}>
-                              <p> {item.title}</p> 
-                          
-                            <img src={item.imageUrl} alt=""></img>
-                           <p>{item.price}</p>   
-                    </Col>
-                ))}
+        return <Fragment>    
+        <Container style={
+            {fontFamily: 'algerian, sans-serif',marginTop:'30px' }}>
+            <p className="fw-bold fs-3 text-dark text-center mb-5">Music</p>
+            <Row  style={{paddingLeft:"170px"}}>
+                {
+                    productsArr.map((product,index)=>(
+                        <Col md={6} key={index}>
+                            <Card style={{width:"300px"}} className="d-flex justify-content-center mb-5">
+                                <Card.Footer className="text-center fw-bold fs-5">{product.title}</Card.Footer>
+                                <Card.Body>
+                                  <div className="image-container">
+                                     <Card.Img src={product.imageUrl} className="image-zoom" alt={product.title}></Card.Img>
+                                  </div>
+                                </Card.Body>
+                                <Card.Footer className="d-flex align-items-center justify-content-between ">
+                                    <p className="lh-6 mb-0">${product.price.toFixed(2)}</p>
+                                    <Button style={{background:" rgb(38, 157, 204)" , border:"none"}} size="sm" className="ms-auto fw-bold">Add To Cart</Button>
+                                </Card.Footer>
+                            </Card>
+                        </Col>
+                    ))
+                }
+               
             </Row>
         </Container>
     </Fragment>
 }
-
-
 export default ProductList
