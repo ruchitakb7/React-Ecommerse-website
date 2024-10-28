@@ -1,5 +1,6 @@
-import React,{useReducer} from "react";
+import React,{useReducer,useState,useEffect} from "react";
 import ContextApi from "./ConetxtApi";
+import Alert from "../components/UI/Alert";
 
 const initialstate={
     items:[],
@@ -9,29 +10,18 @@ const initialstate={
 
 const cartReducer=(state,action)=>{
         
-        if(action.type==="ADD-ITEM")
-            {
-                const isItemExist=state.items.findIndex((item)=>action.item.id===item.id)
+    if(action.type==="ADD-ITEM")
+    {                 
+                const  updatedList = state.items.concat(action.item);
+                const newPrice=state.totalPrice+action.item.price
+                const newQuantity=state.totalQuantity+1
 
-                if(isItemExist>=0)
-                {
-                    alert('Item has Already In the cart')
-                    return state;
-                }
-                else
-                {
-                    const  updatedList = state.items.concat(action.item);
-                    const newPrice=state.totalPrice+action.item.price
-                    const newQuantity=state.totalQuantity+1
-
-                    return{
+                return{
                         items:updatedList,
                         totalQuantity:newQuantity,
-                        totalPrice:newPrice
+                        totalPrice:newPrice,
+                        isItemExist:false
                     }
-            
-
-                } 
     }
     if(action.type==="REMOVE-ITEM")
     {
@@ -53,7 +43,6 @@ const cartReducer=(state,action)=>{
                     totalQuantity:+newQuantity,
                     totalPrice:+newPrice
                 }
-        
                 
     }
     
@@ -88,9 +77,21 @@ const cartReducer=(state,action)=>{
 const ContextProvider=(props)=>{
   
     const [currentstate,reducerHandler]=useReducer(cartReducer,initialstate)
+    const [addcartStatus,setStatus]=useState("")
 
     const addItemHandler=(item)=>{
-        reducerHandler({type:"ADD-ITEM",item:item})
+        
+        const itemExists = currentstate.items.findIndex((existingItem) => existingItem.id === item.id);
+
+        if (itemExists!==-1) {
+            setStatus(`${item.title} is already in the cart!`);
+        } else {
+            reducerHandler({ type: "ADD-ITEM", item: item });
+            setStatus(`${item.title} has been added to the cart!`);
+        }
+        setTimeout(() => {
+            setStatus("");
+        }, 2000);
     }
 
     const removeItemHandler=(id)=>{
@@ -112,8 +113,15 @@ const ContextProvider=(props)=>{
        
     }
 
+    useEffect(()=>{
+        console.log(addcartStatus)
+    },[addcartStatus])
+
     return(
         <ContextApi.Provider value={cartContext}>
+           {addcartStatus!=="" && (
+                <Alert text={addcartStatus}></Alert>
+            )}
             {props.children}
         </ContextApi.Provider>
     )

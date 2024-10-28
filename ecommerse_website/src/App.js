@@ -6,7 +6,6 @@ import ContextProvider from './store/ContextProvider';
 
 function App() {
   return (
-    
       <ContextProvider>
       <Header></Header>
           <Generic></Generic>
