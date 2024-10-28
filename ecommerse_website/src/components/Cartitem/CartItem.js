@@ -1,41 +1,37 @@
-import React,{Fragment,useState,useEffect} from "react";
+import React,{Fragment,useState,useContext} from "react";
 
-import { Button,ListGroup,Modal} from "react-bootstrap";
+import { Button,ListGroup,Modal,Form} from "react-bootstrap";
+import ContextApi from "../../store/ConetxtApi";
 
-const cartElements = [
-    {
-    title: 'Colors',
-    price: 100,
-    imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%201.png',
-    quantity: 2,
-    },
-    {
-    title: 'Black and white Colors',
-    price: 50,
-    imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%202.png',
-    quantity: 3,
-    },
-    {
-    title: 'Yellow and Black Colors',
-    price: 70,
-    imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%203.png',
-    quantity: 1,
-    }
-    ]
 
 const CartItem=()=>{
+
+    const ctx=useContext(ContextApi)
  
     const [cartStatus,setcartStatus] =useState(false)
-
+   
     const cartStatusHandler=()=>{
         setcartStatus((prevStatus) => !prevStatus);    
+    }
+
+    const adjustQuanity=(item,event)=>{
+        const newq=event.target.value.trim()
+        ctx.adjustQuantity({
+            id:item.id,
+            price:+item.price,
+            quantity:+newq
+        })
+
+    }
+    const removeItem=(id)=>{
+        ctx.removeItem(id)
     }
 
     return(
     <Fragment>
           <Button  onClick={()=>cartStatusHandler()}  className="me-3 btn-sm bg-dark"
           style={{border:"2px solid rgb(38, 157, 204)" }} 
-          >  Cart  {0}</Button>
+          >  Cart <span className="fs-6 fw-bold">{ctx.totalQuantity}</span> </Button>
 
           <Modal show={cartStatus} scrollable={true} 
           centered={true} style={{fontFamily:"calibri"}}>
@@ -52,7 +48,7 @@ const CartItem=()=>{
                             <strong>Quantity</strong>
                         </div>
                     </ListGroup.Item>
-                    {cartElements.map((item, index) => {
+                    {ctx.items && ctx.items.map((item, index) => {
                         return <ListGroup.Item key={index}>
                             <div className="d-flex justify-content-between align-items-center">
                                 <span style={{maxWidth:'100px'}}>
@@ -61,8 +57,10 @@ const CartItem=()=>{
                                 </span>
                                 <span>Price: ${item.price}</span>
                                 <div>
-                                    <div>Quantity: {item.quantity}</div>
-                                    <Button variant="danger">Remove</Button>
+                                    <input value={item.quantity} type="number" min={1}
+                                    onChange={(e)=>adjustQuanity(item,e)}
+                                    style={{maxWidth: "50px", marginRight:"5px" }}/>
+                                    <Button variant="danger" onClick={()=>removeItem(item.id)}>Remove</Button>
                                 </div>
                             </div>
                         </ListGroup.Item>
@@ -70,7 +68,7 @@ const CartItem=()=>{
                 </ListGroup>
                </Modal.Body>
                <Modal.Footer className="justify-content-between d-flex align-items-center">
-                <strong>Total - $0.00</strong>
+                <strong>Total - ${ctx.totalPrice.toFixed(2)||0.00}</strong>
                 <Button style={{background:" rgb(38, 157, 204)" , border:"none"}}>Purchase</Button>
                </Modal.Footer>
           </Modal>

@@ -1,16 +1,17 @@
-import { Fragment } from 'react';
+import React from 'react';
 import ProductList from './components/ProductList/ProductList';
 import Header from './components/layout/Header';
 import Generic from './components/UI/Generic';
+import ContextProvider from './store/ContextProvider';
 
 function App() {
   return (
-     <Fragment>
+    
+      <ContextProvider>
       <Header></Header>
-      <Generic></Generic>
-        <ProductList></ProductList>
-     </Fragment>
-      
+          <Generic></Generic>
+          <ProductList></ProductList>
+      </ContextProvider>
   );
 }
 

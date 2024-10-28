@@ -1,48 +1,44 @@
-import React ,{Fragment}from "react"
+import React ,{Fragment,useContext}from "react"
 import {Card,Row,Col,Container, Button} from "react-bootstrap"
 import "./ProductList.css"
+import ContextApi from "../../store/ConetxtApi"
 
 const ProductList=()=>{
+
+    const ctx= useContext(ContextApi)
+
     const productsArr = [
         {
-        
         title: 'Rockstar',
-        
         price: 100,
-        
-        imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%201.png',
-        
-        },
-        
+        imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%201.png',},
         {
-        
         title: 'Taal',
-        
         price: 50,
-        
         imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%202.png',
-        
         },
-        
         {
-        
         title: 'Dil Se Re',
-        
         price: 70,
-        
         imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%203.png',
-        
         },
-        
         {
-        
         title: 'Jodha Akbar',
-        
         price: 100,
-        
         imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%204.png',
-        
         }]
+
+            const addProductInTheCart=(item)=>{
+            
+                ctx.addItem({
+                    id:item.id,
+                    title:item.title,
+                    imageUrl:item.imageUrl,
+                    price:+item.price,
+                    quantity:1
+                })
+
+            }
 
         return <Fragment>    
         <Container style={
@@ -61,13 +57,16 @@ const ProductList=()=>{
                                 </Card.Body>
                                 <Card.Footer className="d-flex align-items-center justify-content-between ">
                                     <p className="lh-6 mb-0">${product.price.toFixed(2)}</p>
-                                    <Button style={{background:" rgb(38, 157, 204)" , border:"none"}} size="sm" className="ms-auto fw-bold">Add To Cart</Button>
+                                    <Button size="sm" className="ms-auto fw-bold"
+                                    style={{background:" rgb(38, 157, 204)" , border:"none"}}
+                                    onClick={()=>addProductInTheCart({...product,id:index})}>
+                                        Add To Cart
+                                    </Button>
                                 </Card.Footer>
                             </Card>
                         </Col>
                     ))
                 }
-               
             </Row>
         </Container>
     </Fragment>
