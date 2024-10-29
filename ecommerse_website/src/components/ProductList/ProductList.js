@@ -1,32 +1,36 @@
-import React ,{Fragment,useContext}from "react"
+import React ,{Fragment,useContext,useState,useEffect}from "react"
 import {Card,Row,Col,Container, Button} from "react-bootstrap"
 import "./ProductList.css"
 import ContextApi from "../../store/ConetxtApi"
+
+const productsArr = [
+    {
+    title: 'Rockstar',
+    price: 100,
+    imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%201.png',},
+    {
+    title: 'Taal',
+    price: 50,
+    imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%202.png',
+    },
+    {
+    title: 'Dil Se Re',
+    price: 70,
+    imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%203.png',
+    },
+    {
+    title: 'Jodha Akbar',
+    price: 100,
+    imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%204.png',
+    }]
 
 const ProductList=()=>{
 
     const ctx= useContext(ContextApi)
 
-    const productsArr = [
-        {
-        title: 'Rockstar',
-        price: 100,
-        imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%201.png',},
-        {
-        title: 'Taal',
-        price: 50,
-        imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%202.png',
-        },
-        {
-        title: 'Dil Se Re',
-        price: 70,
-        imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%203.png',
-        },
-        {
-        title: 'Jodha Akbar',
-        price: 100,
-        imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%204.png',
-        }]
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    
 
             const addProductInTheCart=(item)=>{
             
@@ -39,6 +43,32 @@ const ProductList=()=>{
                 })
 
             }
+
+
+            const fetchProducts = async () => {
+                setLoading(true);
+                setError(null);
+                try {
+                    const response = await fetch('https://swapi.dev/api/people/1/'); 
+                   
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch products');
+                    }
+                    const data = await response.json();
+                
+                } catch (error) {
+                    setError(error.message);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            useEffect(() => {
+                fetchProducts();
+            }, []);
+
+            if (loading) return <div>Loading...</div>;
+            if (error) return <div>Error: {error}</div>;
 
         return <Fragment>    
         <Container style={
