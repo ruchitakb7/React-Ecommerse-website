@@ -1,9 +1,14 @@
-import React from "react"
+import React, { Fragment } from "react"
 import ProductList from "../ProductList/ProductList"
+import Footer from "../UI/Footer"
 
 const Store=()=>{
     return(
-        <ProductList></ProductList>
+        <Fragment>
+                 <ProductList></ProductList>
+                 <Footer></Footer>
+        </Fragment>
+       
     )
 }
 export  default Store
