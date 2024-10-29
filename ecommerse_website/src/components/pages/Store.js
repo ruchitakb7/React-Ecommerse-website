@@ -6,7 +6,10 @@ import { Container,Image, Row ,Col} from "react-bootstrap"
 const Store=()=>{
     return(
         <Fragment>
-                 <ProductList></ProductList>
+            <div style={{minHeight:"100vh"}}>
+               <ProductList></ProductList>
+            </div>
+                
                  <Footer>
                  <Container className="d-flex align-items-center ">
                 <Row className=" w-100 align-items-center justify-content-center ">
