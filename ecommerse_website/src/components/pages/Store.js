@@ -2,10 +2,14 @@ import React, { Fragment } from "react"
 import ProductList from "../ProductList/ProductList"
 import Footer from "../UI/Footer"
 import { Container,Image, Row ,Col} from "react-bootstrap"
+import CartItem from "../Cartitem/CartItem"
 
 const Store=()=>{
     return(
         <Fragment>
+            <div style={{ position: "absolute", right: "20px", top: "6%", transform: "translateY(-50%)",zIndex:"1050" }}>
+                <CartItem />
+            </div>
             <div style={{minHeight:"100vh"}}>
                <ProductList></ProductList>
             </div>

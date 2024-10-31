@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState, useEffect } from "react";
+import React, { Fragment, useContext, useState, useEffect,useCallback } from "react";
 import { Card, Row, Col, Container, Button } from "react-bootstrap";
 import "./ProductList.css";
 import ContextApi from "../../store/ConetxtApi";
@@ -43,11 +43,11 @@ const ProductList = () => {
         });
     };
 
-    const fetchProducts = async () => {
+    const fetchProducts = useCallback(async () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch('https://swapi.dev/api/peoples/1/');
+            const response = await fetch('https://swapi.dev/api/people/1/');
             if (!response.ok) {
                 throw new Error('Failed to fetch products');
             }
@@ -60,17 +60,18 @@ const ProductList = () => {
         } finally {
             setLoading(false);
         }
-    };
+    },[]);
 
-    const startRetry = () => {
+    const startRetry = useCallback(() => {
         setRetryInterval(setInterval(fetchProducts, 5000));
-    };
+    },[]);
 
-    const stopRetry = () => {
+    const stopRetry = useCallback(() => {
         clearInterval(retryInterval);
         setRetryInterval(null);
         setRetrying(false);
-    };
+    }, [retryInterval]);
+    
 
     useEffect(() => {
         fetchProducts();

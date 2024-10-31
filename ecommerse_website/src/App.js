@@ -18,7 +18,7 @@ function App() {
     <Routes>
       <Route path="/home" element={<Home />} />
       <Route path="/about" element={<About />} /> 
-      <Route path="/products" element={<Store />} /> 
+      <Route path="/" element={<Store />} /> 
     </Routes>
   </ContextProvider>
   
