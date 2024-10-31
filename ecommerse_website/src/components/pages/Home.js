@@ -36,13 +36,41 @@ const Home = () => {
         }
     }
 
+    async function deletetourdata(id) {
+        console.log(id)
+        try{
+            const response= await fetch(`https://ecommerse-website-a73c2-default-rtdb.firebaseio.com/tour/${id}.json`,{
+            method: 'DELETE', 
+                headers: {
+                    'Content-Type': 'application/json' 
+                },})
+
+                if (!response.ok) {
+                    console.log(response)
+                    throw new Error('FAILED TO DELETE DATA');
+                }
+                if(response.ok)
+                {
+                    alert("DATA HAS BEEN DELETED SUCCESSFULLY")
+                    settourList((prevList)=> prevList.filter(tour => tour.id !== id))
+                    
+                }
+          }
+          catch(error){
+            alert(error)
+          }
+    }
+
+    const deleteHandler=(id)=>{
+        deletetourdata(id)
+    }
+
     useEffect(()=>{
         fetchData()
     },[])
 
     const formHandler=()=>{
        navigate("/add-movies");
-      // fetchData()
     }
   return (
     <Fragment>
@@ -64,7 +92,9 @@ const Home = () => {
                     <Col xs={3}>{data.date}</Col>
                     <Col xs={3 }>{data.place}</Col>
                     <Col xs={4}>{data.desc}</Col>
-                    <Col xs={3}><Button style={{background:" rgb(38, 157, 204)"}}>BUY TICKETS</Button></Col>
+                    <Col xs={2}><Button style={{background:" rgb(38, 157, 204)"}} onClick={()=>deleteHandler(data.id)}
+                    >Delete</Button></Col>
+                    <Col xs={3}><Button style={{background:" rgb(38, 157, 204)"}}>BUY TICKET</Button></Col>
                     </Col>
                    
                 </Row>

@@ -13,19 +13,17 @@ const AddmovieForm=()=>{
     const addTourData = async (newTour) => {
         try {
             const response = await fetch('https://ecommerse-website-a73c2-default-rtdb.firebaseio.com/tour.json', {
-                method: 'POST', // Specify POST method
+                method: 'POST', 
                 headers: {
-                    'Content-Type': 'application/json' // Specify the content type
+                    'Content-Type': 'application/json' 
                 },
-                body: JSON.stringify(newTour) // Convert the object to JSON
+                body: JSON.stringify(newTour) 
             });
     
             if (!response.ok) {
                 throw new Error('Failed to add new tour');
             }
     
-            const result = await response.json(); // Get the response data
-            console.log('New tour added with ID:', result.name); // Firebase returns the ID of the new record
         } catch (error) {
             console.error(error);
         }
