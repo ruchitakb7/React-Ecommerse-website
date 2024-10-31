@@ -9,7 +9,7 @@ const Store=()=>{
     return(
         <Fragment>
              <Generic />
-            <div style={{ position: "absolute", right: "20px", top: "9%", transform: "translateY(-50%)",zIndex:"1050" }}>
+            <div style={{ position: "absolute", right: "20px", top: "7%", transform: "translateY(-50%)",zIndex:"1050" }}>
                 <CartItem />
             </div>
             <div style={{minHeight:"100vh"}}>

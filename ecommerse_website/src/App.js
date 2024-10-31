@@ -7,6 +7,7 @@ import Store from './components/pages/Store';
 import About from './components/pages/About';
 import AddmovieForm from './components/pages/AddmoviesForm';
 import Contact from './components/pages/Contact';
+import Product from './components/pages/Product';
 
 function App() {
   return(
@@ -20,6 +21,7 @@ function App() {
       <Route path="/" element={<Store />} /> 
       <Route path="/add-movies" element={<AddmovieForm/>}/>
       <Route path="/contact-us" element={<Contact/>}/>
+      <Route path="/product/:productId" element={<Product/>} />
     </Routes>
   </ContextProvider>
   

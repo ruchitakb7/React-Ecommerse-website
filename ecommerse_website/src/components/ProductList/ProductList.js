@@ -2,6 +2,7 @@ import React, { Fragment, useContext, useState, useEffect,useCallback } from "re
 import { Card, Row, Col, Container, Button } from "react-bootstrap";
 import "./ProductList.css";
 import ContextApi from "../../store/ConetxtApi";
+import { Link } from "react-router-dom";
 
 const productsArr = [
     {
@@ -106,6 +107,7 @@ const ProductList = () => {
                 <Row style={{ paddingLeft: "170px" }}>
                     {productsArr.map((product, index) => (
                         <Col md={6} key={index}>
+                            <Link to={`/product/${index}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                             <Card style={{ width: "300px" }} className="d-flex justify-content-center mb-5">
                                 <Card.Footer className="text-center fw-bold fs-5">{product.title}</Card.Footer>
                                 <Card.Body>
@@ -122,7 +124,9 @@ const ProductList = () => {
                                     </Button>
                                 </Card.Footer>
                             </Card>
+                            </Link>
                         </Col>
+                        
                     ))}
                 </Row>
             </Container>
