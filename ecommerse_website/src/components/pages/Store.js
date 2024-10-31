@@ -3,10 +3,12 @@ import ProductList from "../ProductList/ProductList"
 import Footer from "../UI/Footer"
 import { Container,Image, Row ,Col} from "react-bootstrap"
 import CartItem from "../Cartitem/CartItem"
+import Generic from "../UI/Generic"
 
 const Store=()=>{
     return(
         <Fragment>
+             <Generic />
             <div style={{ position: "absolute", right: "20px", top: "6%", transform: "translateY(-50%)",zIndex:"1050" }}>
                 <CartItem />
             </div>
