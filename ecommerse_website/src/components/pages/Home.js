@@ -1,24 +1,48 @@
-import React, {Fragment} from "react";
+import React, {Fragment,useEffect,useState,memo} from "react";
 import Footer from "../UI/Footer";
 import {Row,Col,Button} from "react-bootstrap"
 import "./home.css"
 import Generic from "../UI/Generic";
 import { useNavigate } from "react-router-dom";
 
-const TourList = [
-    { date: "JUL16", place: "DETROIT, MI", des: "DTE ENERGY MUSIC THEATRE" },
-    { date: "JUL19", place: "TORONTO, ON", des: "BUDWEISER STAGE" },
-    { date: "JUL 22", place: "BRISTOW, VA", des: "JIGGY LUBE LIVE" },
-    { date: "JUL 29", place: "PHOENIX, AZ", des: "AK - CHIN PAVILION" },
-    { date: "AUG 2", place: "LAS VEGAS, NV", des: "T - MOBILE ARENA" },
-    { date: "AUG 7", place: "CONCORD, CA", des: "P - MOBILE ARENA" }
-];
-const Home = () => {
 
+const Home = () => {
+     
+    const [tourdata,settourList]=useState([])
     const navigate= useNavigate()
+
+    const fetchData=async ()=>{
+        try{
+            const response= await fetch('https://ecommerse-website-a73c2-default-rtdb.firebaseio.com/tour.json')
+            if(!response.ok)
+            {
+                throw new Error('something went wrong')
+            }
+            const data= await response.json()
+            let TourList=[]
+            for(const key in data)
+            {
+                TourList.push({
+                    id:key,
+                    date:data[key].date,
+                    place:data[key].place,
+                    desc:data[key].desc
+                })
+            }
+            settourList(TourList)
+        }
+        catch(error){
+            console.log(error)
+        }
+    }
+
+    useEffect(()=>{
+        fetchData()
+    },[])
 
     const formHandler=()=>{
        navigate("/add-movies");
+      // fetchData()
     }
   return (
     <Fragment>
@@ -33,13 +57,13 @@ const Home = () => {
         <p className="text-center fw-bold fs-3 text-dark text-center mt-5 mb-5" style={{fontFamily:"algerian"}}>TOURS</p>
       <div className="content">
         {
-            TourList.map((data,index)=>(
+            tourdata.map((data,index)=>(
                 <Row key={index} className="align-items-center justify-content-center d-flex mb-3" 
                 style={{fontFamily:"algerian"}}>
                     <Col  className="d-flex justify-content-between m-1" style={{maxWidth:"50rem"}}>
                     <Col xs={3}>{data.date}</Col>
                     <Col xs={3 }>{data.place}</Col>
-                    <Col xs={4}>{data.des}</Col>
+                    <Col xs={4}>{data.desc}</Col>
                     <Col xs={3}><Button style={{background:" rgb(38, 157, 204)"}}>BUY TICKETS</Button></Col>
                     </Col>
                    
@@ -61,4 +85,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default memo(Home);
