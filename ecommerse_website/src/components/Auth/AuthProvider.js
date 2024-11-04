@@ -18,16 +18,21 @@ export const AuthContext = React.createContext({
 
   const userIsLoggedIn = !!token;
 
+
+  useEffect(() => {
+    setToken(initialToken);
+  }, [initialToken]);
+
   const loginHandler = (token) => {
     setToken(token);
     localStorage.setItem('token', token);
-    navigate('/');
+    navigate('/products');
   };
 
   const logoutHandler = () => {
     setToken(null);
     localStorage.removeItem('token');
-    navigate('/auth')
+    navigate('/')
   };
 
 
